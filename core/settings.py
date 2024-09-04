@@ -44,10 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-
-    'products',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    'drf_spectacular',
+
+    'products',
+
 ]
 
 MIDDLEWARE = [
@@ -145,12 +147,22 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         
         ],
-    'DEFAULT_PERMISSION_CLASSES':['rest_framework.permissions.IsAuthenticated']
+    'DEFAULT_PERMISSION_CLASSES':['rest_framework.permissions.IsAuthenticated'],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'laptop commerce API',
+    'DESCRIPTION': 'this apis shows all price and filter them by query parameters',
+    'VERSION': '1.1',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
 
 
 # config for jupyter adding in settings
