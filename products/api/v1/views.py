@@ -8,8 +8,7 @@ from rest_framework import status
 from django.db.models import  Q ,  F , Avg , Sum , Count
 from rest_framework.permissions import  BasePermission
 from rest_framework.views import APIView
-from rest_framework import generics , mixins
-from rest_framework import viewsets
+from rest_framework import generics , mixins ,viewsets
 from general_class_functions.drf_functions import query_parametrs_filtering_generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.authentication import BasicAuthentication
@@ -61,7 +60,7 @@ class UsersView(generics.ListAPIView):
 # viewsets-router
 
 class Laptpsviewset(viewsets.ModelViewSet):
-    queryset=LaptopProduct.objects.filter()
+    # queryset=LaptopProduct.objects.filter()
     serializer_class = LaptopProductSerializers
     # pagination_class = PageNumberPagination  # This pagination class will be applied to the filtered results. first filters and the pagination http://127.0.0.1:8000/laptops/?brand=Generic&page=2
     
@@ -72,6 +71,7 @@ class Laptpsviewset(viewsets.ModelViewSet):
                          if field.name not in exclude_fields]
         queryset =query_parametrs_filtering_generics(self,query_fields,LaptopProduct) 
         return queryset 
+    
 
 
     
@@ -150,9 +150,13 @@ class Laptpsviewset(viewsets.ModelViewSet):
 
 
 
-
-#apiview
+# from drf_spectacular.utils import extend_schema
+# # apiview
 # class showing_laptops(APIView):
+#     @extend_schema(
+#     request=LaptopProductSerializers,
+#     responses={200: LaptopProductSerializers},
+#     )
 #     def get(self, request:Request):
 #         exclude_fields=['id','update_time','create_time','images','description']
 #         query_fields = [field.name for field in LaptopProduct._meta.get_fields() if field.name not in exclude_fields]

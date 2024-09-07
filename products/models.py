@@ -225,20 +225,29 @@ class Gpu(models.Model):
 
 
 
+class Brand(models.Model):
+    id = models.AutoField(primary_key=True,unique=True)
+    brand_name=models.CharField(max_length=220)
+    country=models.CharField(max_length=220)
+    # oldness=
+    series=models.CharField(max_length=220,null=True,blank=True)
 
+    def __str__(self):
+        return f"{self.brand_name}"
 
 
 
 
 class LaptopProduct(models.Model): 
     id = models.AutoField(primary_key=True,unique=True) 
-    brand = models.CharField(max_length=220 , ) 
+    # brand = models.CharField(max_length=220 , ) 
+    brand = models.ForeignKey(Brand,on_delete=models.CASCADE,null=True)
     model = models.CharField(max_length=220 ) 
     series =  models.CharField(max_length=220 )
     ram = models.ForeignKey(Ram, on_delete=models.CASCADE,related_name='ram_laptops')
     cpu = models.ForeignKey(Cpu, on_delete=models.CASCADE)
     gpu = models.ForeignKey(Gpu, on_delete=models.CASCADE,related_name='gpu_laptops') 
-
+    
     # cpu = models.CharField(max_length=220 )
     # gpu = models.CharField(max_length=220,default='null' )
 
@@ -273,6 +282,11 @@ class LaptopProduct(models.Model):
                                  on_delete=models.CASCADE,
                                  related_name='user_admin_laptops',
                                  )
-
+    stock = models.PositiveIntegerField(default=0)
+    is_available = models.BooleanField(default=True) 
+    battery = models.CharField(max_length=100, blank=True)
+   
+    # made_in=
     def __str__(self) -> str:
         return (f"{self.brand} - {self.series} - {self.model}")
+
